@@ -1,9 +1,13 @@
+/// <summary>
+/// Table BSB Book (ID 50100). Das ist die Master-Table für Bücher
+/// </summary>
 table 50100 "BSB Book"
 {
     Caption = 'Book';
 
     fields
     {
+        // Das ist das Primärschlüsselfeld
         field(1; "No."; Code[20])
         {
             Caption = 'No.';
