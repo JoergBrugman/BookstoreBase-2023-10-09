@@ -4,6 +4,8 @@
 table 50100 "BSB Book"
 {
     Caption = 'Book';
+    DataCaptionFields = "No.", Description;
+    LookupPageId = "BSB Book List";
 
     fields
     {
@@ -15,11 +17,17 @@ table 50100 "BSB Book"
         field(2; Description; Text[100])
         {
             Caption = 'Description';
+
+            trigger OnValidate()
+            begin
+                if ("Search Description" = UpperCase(xRec.Description)) or ("Search Description" = '') then
+                    "Search Description" := CopyStr(Description, 1, MaxStrLen("Search Description"));
+
+            end;
         }
         field(3; "Search Description"; Code[100])
         {
             Caption = 'Search Description';
-            //TODO Standard-Impl. für Suchbegriff noch machen
         }
         field(4; Blocked; Boolean)
         {
@@ -69,6 +77,16 @@ table 50100 "BSB Book"
         {
             Caption = 'Date of Publishing';
         }
+    }
+
+    keys
+    {
+        key(PK; "No.") { Clustered = true; }
+    }
+
+    fieldgroups
+    {
+        fieldgroup(DropDown; "No.", Description, Author, "No. of Pages") { }
     }
 
     var
