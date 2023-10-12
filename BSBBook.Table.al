@@ -116,4 +116,26 @@ table 50100 "BSB Book"
     begin
         TestField(Blocked, false);
     end;
+
+    /// <summary>
+    /// ShowCard() öffnet die Karte zu dem Datensatz aus dem Rec.
+    /// </summary>
+    procedure ShowCard()
+    begin
+        Page.RunModal(Page::"BSB Book Card", Rec);
+    end;
+
+    /// <summary>
+    /// ShowCard ermittelt den Datensatz zu der im Parameter angegebenen BookNo und öffnet dann die Karte.
+    /// Hier gehts weiter.
+    /// </summary>
+    /// <param name="BookNo">Code[20].</param>
+    procedure ShowCard(BookNo: Code[20])
+    var
+        BSBBook: Record "BSB Book";
+    begin
+        if not BSBBook.Get(BookNo) then
+            exit;
+        BSBBook.ShowCard();
+    end;
 }
