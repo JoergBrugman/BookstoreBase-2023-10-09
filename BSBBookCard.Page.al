@@ -94,4 +94,33 @@ page 50100 "BSB Book Card"
         }
     }
 
+    actions
+    {
+        area(Processing)
+        {
+            action(TestInterface)
+            {
+                Caption = 'TestInterface';
+                ApplicationArea = All;
+                Image = Process;
+
+                trigger OnAction()
+                var
+                    BSBBookTypeInterface: Interface "BSB Book Type Interface";
+                // BSBBookTypeHardcoverImpl: Codeunit "BSB Book Type Hardcover Impl.";
+                // BSBBookTypePaperbackImpl: Codeunit "BSB Book Type Paperback Impl.";
+                begin
+                    // if Rec.Type = Rec.Type::Hardcover then
+                    //     BSBBookTypeInterface := BSBBookTypeHardcoverImpl
+                    // else
+                    //     if Rec.Type = Rec.Type::Paperback then
+                    //         BSBBookTypeInterface := BSBBookTypePaperbackImpl;
+                    BSBBookTypeInterface := Rec.Type;
+                    BSBBookTypeInterface.StartDeliverBook();
+                    BSBBookTypeInterface.StartDeploymentBook();
+                end;
+            }
+        }
+    }
+
 }

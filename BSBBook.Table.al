@@ -33,10 +33,9 @@ table 50100 "BSB Book"
         {
             Caption = 'Blocked';
         }
-        field(5; Type; Option)
+        field(5; Type; Enum "BSB Book Type")
         {
-            OptionMembers = " ",Hardcover,Paperback;
-            OptionCaption = ' ,Hardcover,Paperback;';
+            Caption = 'Type';
         }
         field(7; Created; Date)
         {
@@ -98,12 +97,23 @@ table 50100 "BSB Book"
     end;
 
     trigger OnDelete()
+    var
+        IsHandled: Boolean;
     begin
+        OnBeforeOnDelete(Rec, IsHandled);
+        if IsHandled then
+            exit;
         Error(OnDeleteErr);
     end;
 
     trigger OnModify()
+    var
+        IsHandled: Boolean;
     begin
+        OnBeforeOnModify(Rec, IsHandled);
+        if IsHandled then
+            exit;
+
         "Last Date Modified" := Today;
     end;
 
@@ -137,5 +147,15 @@ table 50100 "BSB Book"
         if not BSBBook.Get(BookNo) then
             exit;
         BSBBook.ShowCard();
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeOnDelete(var Rec: Record "BSB Book"; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeOnModify(var Rec: Record "BSB Book"; var IsHandled: Boolean)
+    begin
     end;
 }
